@@ -1,0 +1,20 @@
+local object = Instance.new("Part" , workspace)
+local player = game.Players.LocalPlayer
+local speed = 30 -- set the speed at which the object will follow the player
+object.Touched:Connect(function(hit)
+	if hit.Parent.Name == game.Players.LocalPlayer.Name then
+		game.Players.LocalPlayer:Destroy()
+	end
+end)
+
+while true do
+	local playerPos = player.Character.HumanoidRootPart.Position
+	local objectPos = object.Position
+	local direction = (playerPos - objectPos).Unit
+	local distance = (playerPos - objectPos).Magnitude
+
+	if distance > 0.1 then -- only moves if distance is greater than 0.1
+		object.CFrame = object.CFrame + direction * speed * math.min(distance, 1/60)
+	end
+	wait()
+end
